@@ -1,0 +1,65 @@
+*fconv.txt*     For Neovim > 0.9.0         Last change: 2026 Mar 22
+
+==============================================================================
+FCONV.NVIM                                                        *fconv.nvim*
+
+Visualize and convert floating-point numbers to hexadecimal.
+
+==============================================================================
+INTRODUCTION                                                      *fconv-intro*
+
+Features:
+-   Real-time virtual text display of converted values.
+-   Support for Float16 (Half), Float32 (Single), Float64 (Double),
+    Float80 (Extended), and Float128 (Quad).
+-   Smart parsing of hex literals (e.g. `0x1.5p-3`) and suffixes.
+
+==============================================================================
+SETUP                                                             *fconv-setup*
+
+Standard setup with default keymaps: >
+
+    require("fconv").setup({
+        keymaps = {
+            toggle = "gs",
+            copy = "gy",
+            inspect = "gl",
+        }
+    })
+
+Configuration Options:
+-   `highlight_group`: Highlight group for virtual text (Default: "DiagnosticInfo").
+-   `format_precision`: Decimal places for float display (Default: 8).
+-   `default_format`: Default format for decimal numbers without suffix (Default: "float64").
+-   `keymaps`: Table for key mappings. Set to `nil` or `false` to disable.
+
+==============================================================================
+COMMANDS                                                       *fconv-commands*
+
+:FloatViewerToggle                                          *:FloatViewerToggle*
+    Toggle the word/selection between float and hex.
+
+:FloatViewerCopy                                              *:FloatViewerCopy*
+    Copy the converted value to the clipboard.
+
+:FloatViewerInspect                                       *:FloatViewerInspect*
+    Open a floating window with value breakdown (Sign, Exponent, Mantissa).
+
+==============================================================================
+FORMATS                                                         *fconv-formats*
+
+Detects format based on:
+1.  **Hex String Length**:
+    -   4 chars -> Float16
+    -   8 chars -> Float32
+    -   16 chars -> Float64
+    -   20 chars -> Float80
+    -   32 chars -> Float128
+2.  **Suffixes**:
+    -   `f16` -> Float16
+    -   `f` / `F` -> Float32
+    -   `L` -> Float80
+    -   `Q` / `f128` -> Float128
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
